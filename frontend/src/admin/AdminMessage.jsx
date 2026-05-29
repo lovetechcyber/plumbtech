@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaEnvelope, FaTrash, FaCheckCircle } from "react-icons/fa";
+import API from "../api/api";
 
 export default function AdminMessages() {
   const [messages, setMessages] = useState([]);
@@ -10,7 +11,7 @@ export default function AdminMessages() {
   // FETCH MESSAGES
   const fetchMessages = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/contact");
+      const res = await API.get("/api/contact");
       setMessages(res.data);
     } catch (err) {
       console.log(err);
@@ -26,7 +27,7 @@ export default function AdminMessages() {
   // MARK AS READ
   const markAsRead = async (id) => {
     try {
-      await axios.patch(`http://localhost:5000/api/contact/${id}/read`);
+      await API.patch(`/api/contact/${id}/read`);
       fetchMessages();
     } catch (err) {
       console.log(err);
@@ -36,7 +37,7 @@ export default function AdminMessages() {
   // DELETE MESSAGE
   const deleteMessage = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/contact/${id}`);
+      await API.delete(`/api/contact/${id}`);
       fetchMessages();
     } catch (err) {
       console.log(err);

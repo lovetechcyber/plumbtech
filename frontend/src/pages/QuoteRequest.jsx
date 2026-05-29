@@ -1,4 +1,5 @@
 import { useState } from "react";
+import API from "../api/api";
 
 export default function QuoteRequest() {
   const [form, setForm] = useState({
@@ -27,10 +28,7 @@ export default function QuoteRequest() {
       formData.append(key, value);
     });
 
-    const res = await fetch("http://localhost:5000/api/quotes", {
-      method: "POST",
-      body: formData,
-    });
+   const res = await API.post("/api/quotes", formData);
 
     if (res.ok) {
       window.location.href = "/success";

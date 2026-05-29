@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import API from "../api/api";
+import { BASE_URL } from "../api/config";
 
 export default function AdminGallery() {
   const [file, setFile] = useState(null);
@@ -22,12 +24,12 @@ export default function AdminGallery() {
     formData.append("title", title);
     formData.append("category", category);
 
-    await axios.post("http://localhost:5000/api/media/upload", formData);
+    await API.post("/api/media/upload", formData);
     fetchMedia();
   };
 
   const deleteMedia = async (id) => {
-    await axios.delete(`http://localhost:5000/api/media/${id}`);
+    await API.delete(`/api/media/${id}`);
     fetchMedia();
   };
 
@@ -72,9 +74,16 @@ export default function AdminGallery() {
         {media.map((item) => (
           <div key={item._id} className="border p-2 rounded">
             {item.type === "image" ? (
-              <img src={item.url} className="w-full h-40 object-cover" />
+              <img
+                src={`${BASE_URL }${item.url}`}
+                alt={item.title}
+                loading="lazy"
+                className="w-full object-cover hover:scale-105 transition duration-300"
+              />
             ) : (
-              <video src={item.url} controls className="w-full h-40" />
+              <video controls className="w-full">
+                <source src={`${BASE_URL }${item.url}`} />
+              </video>
             )}
 
             <p className="font-bold">{item.title}</p>

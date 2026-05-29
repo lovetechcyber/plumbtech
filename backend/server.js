@@ -9,16 +9,23 @@ import quoteRoutes from "./routes/quoteRoutes.js";
 import mediaRoutes from "./routes/mediaRoutes.js";
 import announcementRoutes from "./routes/announcementRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
+import cookieParser from "cookie-parser";
+
 
 dotenv.config();
 
 const app = express();
 
 // MIDDLEWARE
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
-
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(morgan("dev"));

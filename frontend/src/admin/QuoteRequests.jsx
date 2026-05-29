@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import AdminLayout from "./AdminLayout";
+import API from "../api/api";
+import { BASE_URL } from "../api/config";
 
 export default function QuoteRequests() {
   const [quotes, setQuotes] = useState([]);
@@ -10,16 +11,16 @@ export default function QuoteRequests() {
   }, []);
 
   const fetchQuotes = async () => {
-    const res = await axios.get(
-      "http://localhost:5000/api/quotes"
+    const res = await API.get(
+      "/api/quotes"
     );
 
     setQuotes(res.data);
   };
 
   const deleteQuote = async (id) => {
-    await axios.delete(
-      `http://localhost:5000/api/quotes/${id}`
+    await API.delete(
+      `/api/quotes/${id}`
     );
 
     fetchQuotes();
@@ -74,9 +75,9 @@ export default function QuoteRequests() {
               </p>
 
               {/* IMAGE */}
-              {quote.image && (
+              {quote.media && (
                 <img
-                  src={quote.image}
+                  src={`${BASE_URL}${quote.media}`}
                   alt=""
                   className="mt-4 h-52 rounded-lg object-cover"
                 />

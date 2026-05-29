@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { BASE_URL } from "../api/config";
+import API from "../api/api"
 
 const categories = ["All", "Repairs", "Installations", "Emergency"];
 
@@ -12,14 +13,12 @@ export default function GalleryPage() {
   }, []);
 
   const fetchMedia = async () => {
-    const res = await axios.get("http://localhost:5000/api/media");
+    const res = await API.get("/api/media");
     setMedia(res.data);
   };
 
   const filteredMedia =
-    filter === "All"
-      ? media
-      : media.filter((item) => item.category === filter);
+    filter === "All" ? media : media.filter((item) => item.category === filter);
 
   return (
     <div className="p-6">
@@ -53,13 +52,14 @@ export default function GalleryPage() {
           >
             {item.type === "image" ? (
               <img
-                src={item.url}
-                alt=""
-                className="w-full object-cover hover:scale-105 transition"
+                src={`${BASE_URL}${item.url}`}
+                alt={item.title}
+                loading="lazy"
+                className="w-full object-cover hover:scale-105 transition duration-300"
               />
             ) : (
               <video controls className="w-full">
-                <source src={item.url} />
+                <source src={`${BASE_URL}${item.url}`}/>
               </video>
             )}
 

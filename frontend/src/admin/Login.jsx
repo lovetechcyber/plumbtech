@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import API from "../api/api";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -23,13 +23,13 @@ export default function Login() {
     setError("");
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/admin/login",
+      const res = await API.post(
+        "/api/admin/login",
         formData
       );
 
       // SAVE TOKEN
-      localStorage.setItem("adminToken", res.data.token);
+      localStorage.setItem("token", res.data.accessToken);
 
       // REDIRECT TO DASHBOARD
       window.location.href = "/admin/dashboard";
