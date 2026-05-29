@@ -1,7 +1,39 @@
 import { FaPhoneAlt, FaWhatsapp, FaMapMarkerAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import { useState } from "react";
+import axios from "axios";
 
 export default function Contact() {
+   const [form, setForm] = useState({
+      name: "",
+      phone: "",
+      email: "",
+      message: "",
+    });
+  
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState("");
+  
+    const handleChange = (e) => {
+      setForm({ ...form, [e.target.name]: e.target.value });
+    };
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setLoading(true);
+  
+      try {
+        await axios.post("http://localhost:5000/api/contact", form);
+  
+        setSuccess("Message sent successfully!");
+        setForm({ name: "", phone: "", email: "", message: "" });
+      } catch (error) {
+        setSuccess("Failed to send message");
+      } finally {
+        setLoading(false);
+      }
+    };
+  
   return (
     <div className="pt-20 bg-gray-50 min-h-screen">
 
@@ -31,7 +63,7 @@ export default function Contact() {
             Fill out the form and our team will get back to you shortly.
           </p>
 
-          <form className="mt-8 space-y-6">
+          <form onSubmit={handleSubmit} className="mt-8 space-y-6">
 
             {/* NAME */}
             <div>
@@ -41,8 +73,12 @@ export default function Contact() {
 
               <input
                 type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
                 placeholder="Enter your full name"
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-blue-600"
+                required
               />
             </div>
 
@@ -53,9 +89,13 @@ export default function Contact() {
               </label>
 
               <input
-                type="text"
+                type="number"
+                name="phone"
                 placeholder="Enter your phone number"
+                value={form.phone}
+                onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-blue-600"
+                required
               />
             </div>
 
@@ -67,8 +107,12 @@ export default function Contact() {
 
               <input
                 type="email"
+                name="email"
                 placeholder="Enter your email address"
+                value={form.email}
+                onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-blue-600"
+                required
               />
             </div>
 
@@ -80,19 +124,27 @@ export default function Contact() {
 
               <textarea
                 rows="6"
+                name="message"
                 placeholder="Write your message..."
+                value={form.message}
+                onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-blue-600"
+                required
               ></textarea>
             </div>
 
             {/* SUBMIT BUTTON */}
             <button
-              type="submit"
+              disabled={loading}
               className="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-4 rounded-lg font-semibold"
             >
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </button>
-
+            {success && (
+              <p className="text-center mt-3 text-green-600">
+                {success}
+              </p>
+            )}
           </form>
         </div>
 

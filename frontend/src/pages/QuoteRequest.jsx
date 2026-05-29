@@ -27,7 +27,7 @@ export default function QuoteRequest() {
       formData.append(key, value);
     });
 
-    const res = await fetch("/api/quotes", {
+    const res = await fetch("http://localhost:5000/api/quotes", {
       method: "POST",
       body: formData,
     });

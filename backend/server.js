@@ -1,64 +1,60 @@
 import express from "express";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 import cors from "cors";
-import multer from "multer";
+import morgan from "morgan";
+import path from "path";
+import adminAuthRoutes from "./routes/adminAuth.js";
+import quoteRoutes from "./routes/quoteRoutes.js";
+import mediaRoutes from "./routes/mediaRoutes.js";
+import announcementRoutes from "./routes/announcementRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
+
+dotenv.config();
 
 const app = express();
+
+// MIDDLEWARE
 app.use(cors());
+
 app.use(express.json());
 
-mongoose.connect("mongodb://127.0.0.1:27017/plumbtech");
+app.use(express.urlencoded({ extended: true }));
 
-// MODEL
-const MediaSchema = new mongoose.Schema({
-  title: String,
-  category: String,
-  type: String,
-  url: String,
-});
-
-const Media = mongoose.model("Media", MediaSchema);
-
-// FILE STORAGE
-const storage = multer.diskStorage({
-  destination: "uploads/",
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + file.originalname);
-  },
-});
-
-const upload = multer({ storage });
-
-// GET ALL MEDIA
-app.get("/api/media", async (req, res) => {
-  const data = await Media.find();
-  res.json(data);
-});
-
-// UPLOAD MEDIA
-app.post("/api/media/upload", upload.single("file"), async (req, res) => {
-  const fileType = req.file.mimetype.startsWith("video")
-    ? "video"
-    : "image";
-
-  const newMedia = new Media({
-    title: req.body.title,
-    category: req.body.category,
-    type: fileType,
-    url: `http://localhost:5000/uploads/${req.file.filename}`,
-  });
-
-  await newMedia.save();
-  res.json(newMedia);
-});
-
-// DELETE MEDIA
-app.delete("/api/media/:id", async (req, res) => {
-  await Media.findByIdAndDelete(req.params.id);
-  res.json({ message: "Deleted" });
-});
+app.use(morgan("dev"));
 
 // STATIC FILES
-app.use("/uploads", express.static("uploads"));
+app.use(
+  "/uploads",
+  express.static("uploads")
+);
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+// ROUTES
+app.use("/api/quotes", quoteRoutes);
+
+app.use("/api/media", mediaRoutes);
+
+app.use(
+  "/api/announcement",
+  announcementRoutes
+);
+
+app.use("/api/contact", contactRoutes);
+app.use("/api/admin", adminAuthRoutes);
+
+// DATABASE
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB Connected");
+
+    app.listen(
+      process.env.PORT || 5000,
+      () => {
+        console.log("Server running");
+      }
+    );
+  })
+  .catch((err) =>
+    console.log(err)
+  );

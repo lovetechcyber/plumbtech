@@ -14,12 +14,20 @@ import {
 } from "lucide-react";
 
 export default function Home() {
-  // 🔹 CMS DATA (Replace with API later)
   const [announcement, setAnnouncement] = useState(
-    "🚨 Emergency Service 24/7 | Call Now: 08023392506",
+    "🚨 Emergency Service 24/7 | Call Now: 08023392506"
   );
 
-  const services = [
+  useEffect(() => {
+    fetch("http://localhost:5000/api/announcement")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.message) setAnnouncement(data.message);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+   const services = [
     {
       title: "Pipe Installation",
       desc: "Professional pipe installation for homes and businesses.",

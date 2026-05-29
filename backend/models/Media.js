@@ -1,42 +1,32 @@
 import mongoose from "mongoose";
 
-const quoteSchema = new mongoose.Schema(
+const mediaSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    phone: {
+    title: {
       type: String,
       required: true,
     },
 
-    location: {
+    category: {
       type: String,
       required: true,
     },
 
-    issueType: {
+    type: {
       type: String,
+      enum: ["image", "video"],
       required: true,
     },
 
-    description: {
+    url: {
       type: String,
       required: true,
-    },
-
-    media: {
-      type: String,
-      default: null,
     },
   },
   { timestamps: true }
 );
 
 export default mongoose.model(
-  "Quote",
-  quoteSchema
+  "Media",
+  mediaSchema
 );
