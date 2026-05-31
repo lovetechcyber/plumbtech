@@ -8,7 +8,7 @@ export default function Sidebar() {
   return (
     <>
       {/* TOP BAR (mobile only) */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-blue-900 text-white flex justify-between items-center p-4 shadow">
+      <div className="md:hidden fixed top-24 left-0 right-0 z-40 bg-blue-900 text-white flex justify-between items-center p-4 shadow">
         <h1 className="font-bold text-xl">PlumbTech</h1>
 
         <button onClick={() => setOpen(true)}>
