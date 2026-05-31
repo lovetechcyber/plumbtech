@@ -64,7 +64,7 @@ export default function Dashboard() {
 
   return (
     <AdminLayout>
-      <div className="p-4 md:p-6 pt-20 md:pt-6">
+      <div className="p-4 md:p-6 pt-40 md:pt-6">
 
         {/* HEADER */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 mb-6">
