@@ -8,7 +8,7 @@ export default function AdminLayout({ children }) {
   return (
     <div className="min-h-screen bg-gray-100 flex">
 
-      {/* SIDEBAR - Floating on mobile/tablet */}
+      {/* SIDEBAR - Floating on mobile//tablet */}
       <aside
         className={`
           fixed top-0 left-0 h-full w-64 bg-white shadow-xl z-50
