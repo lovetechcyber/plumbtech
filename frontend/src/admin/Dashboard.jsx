@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   Menu,
-  X,
   Bell,
   MessageSquare,
   FileText,
   Image,
-  LogOut,
 } from "lucide-react";
 
 import API from "../api/api";
+import Sidebar from "./Sidebar";
 
 export default function Dashboard() {
   const navigate = useNavigate();
 
-  // SIDEBAR STATE
+  // SIDEBAR
   const [open, setOpen] = useState(false);
 
-  // DASHBOARD STATS
+  // STATS
   const [stats, setStats] = useState({
     announcements: 0,
     messages: 0,
@@ -39,7 +38,7 @@ export default function Dashboard() {
     fetchStats();
   }, [navigate]);
 
-  // FETCH DATA
+  // FETCH STATS
   const fetchStats = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -96,93 +95,12 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* BACKDROP */}
-      {open && (
-        <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
-          onClick={() => setOpen(false)}
-        />
-      )}
-
-      {/* FLOATING SIDEBAR */}
-      <aside
-        className={`
-          fixed top-4 left-4 bottom-4 w-64
-          bg-blue-900 text-white z-50
-          rounded-2xl shadow-2xl
-          transform transition-transform duration-300 ease-in-out
-          ${open ? "translate-x-0" : "-translate-x-[120%]"}
-          md:translate-x-0
-        `}
-      >
-        {/* SIDEBAR HEADER */}
-        <div className="flex items-center justify-between p-5 border-b border-blue-800">
-
-          <h1 className="text-2xl font-bold">
-            PlumbTech
-          </h1>
-
-          <button
-            className="md:hidden"
-            onClick={() => setOpen(false)}
-          >
-            <X />
-          </button>
-        </div>
-
-        {/* NAVIGATION */}
-        <nav className="flex flex-col gap-2 p-4">
-
-          <Link
-            to="/admin/dashboard"
-            onClick={() => setOpen(false)}
-            className="p-3 rounded-lg hover:bg-blue-800 transition"
-          >
-            Dashboard
-          </Link>
-
-          <Link
-            to="/admin/message"
-            onClick={() => setOpen(false)}
-            className="p-3 rounded-lg hover:bg-blue-800 transition"
-          >
-            Messages
-          </Link>
-
-          <Link
-            to="/admin/announcement"
-            onClick={() => setOpen(false)}
-            className="p-3 rounded-lg hover:bg-blue-800 transition"
-          >
-            Announcements
-          </Link>
-
-          <Link
-            to="/admin/quotes"
-            onClick={() => setOpen(false)}
-            className="p-3 rounded-lg hover:bg-blue-800 transition"
-          >
-            Quote Requests
-          </Link>
-
-          <Link
-            to="/admin/gallery"
-            onClick={() => setOpen(false)}
-            className="p-3 rounded-lg hover:bg-blue-800 transition"
-          >
-            Gallery Uploads
-          </Link>
-
-          {/* LOGOUT */}
-          <button
-            onClick={handleLogout}
-            className="mt-4 flex items-center gap-2 bg-red-500 hover:bg-red-600 px-4 py-3 rounded-lg transition"
-          >
-            <LogOut size={18} />
-            Logout
-          </button>
-        </nav>
-      </aside>
+      {/* SIDEBAR */}
+      <Sidebar
+        open={open}
+        setOpen={setOpen}
+        handleLogout={handleLogout}
+      />
 
       {/* MAIN CONTENT */}
       <div className="w-full md:pl-72">
@@ -194,18 +112,12 @@ export default function Dashboard() {
             PlumbTech Admin
           </h1>
 
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
-          >
-            Logout
-          </button>
         </header>
 
         {/* PAGE CONTENT */}
         <main className="p-4 md:p-8 pt-24 md:pt-8">
 
-          {/* PAGE TITLE */}
+          {/* TITLE */}
           <div className="mb-8">
 
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
@@ -217,7 +129,7 @@ export default function Dashboard() {
             </p>
           </div>
 
-          {/* STATS */}
+          {/* CARDS */}
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
 
             <Card
@@ -252,7 +164,7 @@ export default function Dashboard() {
   );
 }
 
-/* CARD */
+/* CARD COMPONENT */
 function Card({ title, value, icon }) {
   return (
     <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-5 md:p-6">
