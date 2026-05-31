@@ -7,16 +7,16 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* MOBILE / TABLET TOP BAR */}
-      <div className="md:hidden flex items-center justify-between bg-blue-900 text-white p-4 fixed top-0 left-0 right-0 z-40 shadow-md">
-        <h1 className="text-xl font-bold">PlumbTech</h1>
+      {/* TOP BAR (mobile only) */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-blue-900 text-white flex justify-between items-center p-4 shadow">
+        <h1 className="font-bold text-xl">PlumbTech</h1>
 
         <button onClick={() => setOpen(true)}>
           <Menu size={26} />
         </button>
       </div>
 
-      {/* OVERLAY */}
+      {/* BACKDROP */}
       {open && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
@@ -24,45 +24,45 @@ export default function Sidebar() {
         />
       )}
 
-      {/* SIDEBAR */}
+      {/* FLOATING SIDEBAR */}
       <aside
         className={`
-          fixed top-0 left-0 h-full w-64 bg-blue-900 text-white z-50
-          shadow-2xl
+          fixed top-4 left-4 bottom-4 w-64
+          bg-blue-900 text-white z-50
+          rounded-2xl shadow-2xl
           transform transition-transform duration-300 ease-in-out
-          ${open ? "translate-x-0" : "-translate-x-full"}
-          md:translate-x-0 md:static md:block
+          ${open ? "translate-x-0" : "-translate-x-[120%]"}
+          md:translate-x-0 md:left-4
         `}
       >
         {/* HEADER */}
-        <div className="flex items-center justify-between p-5 border-b border-blue-800">
-          <h1 className="text-2xl font-bold">PlumbTech</h1>
+        <div className="flex items-center justify-between p-4 border-b border-blue-800">
+          <h1 className="text-xl font-bold">PlumbTech</h1>
 
-          {/* close button only mobile */}
           <button className="md:hidden" onClick={() => setOpen(false)}>
             <X />
           </button>
         </div>
 
         {/* NAV */}
-        <nav className="flex flex-col gap-2 p-5">
-          <Link onClick={() => setOpen(false)} to="/admin/dashboard" className="hover:bg-blue-800 p-2 rounded">
+        <nav className="flex flex-col gap-2 p-4">
+          <Link onClick={() => setOpen(false)} to="/admin/dashboard" className="p-2 rounded hover:bg-blue-800">
             Dashboard
           </Link>
 
-          <Link onClick={() => setOpen(false)} to="/admin/message" className="hover:bg-blue-800 p-2 rounded">
+          <Link onClick={() => setOpen(false)} to="/admin/message" className="p-2 rounded hover:bg-blue-800">
             Message
           </Link>
 
-          <Link onClick={() => setOpen(false)} to="/admin/announcement" className="hover:bg-blue-800 p-2 rounded">
+          <Link onClick={() => setOpen(false)} to="/admin/announcement" className="p-2 rounded hover:bg-blue-800">
             Announcement
           </Link>
 
-          <Link onClick={() => setOpen(false)} to="/admin/quotes" className="hover:bg-blue-800 p-2 rounded">
+          <Link onClick={() => setOpen(false)} to="/admin/quotes" className="p-2 rounded hover:bg-blue-800">
             Quote Requests
           </Link>
 
-          <Link onClick={() => setOpen(false)} to="/admin/gallery" className="hover:bg-blue-800 p-2 rounded">
+          <Link onClick={() => setOpen(false)} to="/admin/gallery" className="p-2 rounded hover:bg-blue-800">
             Gallery Uploads
           </Link>
         </nav>
