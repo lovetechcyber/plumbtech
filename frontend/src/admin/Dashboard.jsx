@@ -8,6 +8,7 @@ import {
   MessageSquare,
   FileText,
   Image,
+  LogOut,
 } from "lucide-react";
 
 import API from "../api/api";
@@ -15,7 +16,7 @@ import API from "../api/api";
 export default function Dashboard() {
   const navigate = useNavigate();
 
-  // SIDEBAR
+  // SIDEBAR STATE
   const [open, setOpen] = useState(false);
 
   // DASHBOARD STATS
@@ -38,7 +39,7 @@ export default function Dashboard() {
     fetchStats();
   }, [navigate]);
 
-  // FETCH STATS
+  // FETCH DATA
   const fetchStats = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -65,7 +66,7 @@ export default function Dashboard() {
       });
 
     } catch (error) {
-      console.log("Dashboard fetch error:", error);
+      console.log(error);
 
       if (error.response?.status === 401) {
         localStorage.removeItem("token");
@@ -81,12 +82,24 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
+    <div className="min-h-screen bg-gray-100">
 
-      {/* OVERLAY */}
+      {/* MOBILE TOPBAR */}
+      <div className="fixed top-0 left-0 right-0 z-40 bg-blue-900 text-white flex justify-between items-center p-4 shadow md:hidden">
+
+        <h1 className="font-bold text-xl">
+          PlumbTech
+        </h1>
+
+        <button onClick={() => setOpen(true)}>
+          <Menu size={26} />
+        </button>
+      </div>
+
+      {/* BACKDROP */}
       {open && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
           onClick={() => setOpen(false)}
         />
       )}
@@ -95,17 +108,17 @@ export default function Dashboard() {
       <aside
         className={`
           fixed top-4 left-4 bottom-4 w-64
-          bg-white rounded-2xl shadow-2xl
-          z-50 overflow-y-auto
+          bg-blue-900 text-white z-50
+          rounded-2xl shadow-2xl
           transform transition-transform duration-300 ease-in-out
           ${open ? "translate-x-0" : "-translate-x-[120%]"}
           md:translate-x-0
         `}
       >
         {/* SIDEBAR HEADER */}
-        <div className="flex items-center justify-between p-5 border-b">
+        <div className="flex items-center justify-between p-5 border-b border-blue-800">
 
-          <h1 className="text-2xl font-bold text-blue-700">
+          <h1 className="text-2xl font-bold">
             PlumbTech
           </h1>
 
@@ -123,7 +136,7 @@ export default function Dashboard() {
           <Link
             to="/admin/dashboard"
             onClick={() => setOpen(false)}
-            className="p-3 rounded-lg hover:bg-blue-100 text-gray-700 font-medium transition"
+            className="p-3 rounded-lg hover:bg-blue-800 transition"
           >
             Dashboard
           </Link>
@@ -131,7 +144,7 @@ export default function Dashboard() {
           <Link
             to="/admin/message"
             onClick={() => setOpen(false)}
-            className="p-3 rounded-lg hover:bg-blue-100 text-gray-700 font-medium transition"
+            className="p-3 rounded-lg hover:bg-blue-800 transition"
           >
             Messages
           </Link>
@@ -139,7 +152,7 @@ export default function Dashboard() {
           <Link
             to="/admin/announcement"
             onClick={() => setOpen(false)}
-            className="p-3 rounded-lg hover:bg-blue-100 text-gray-700 font-medium transition"
+            className="p-3 rounded-lg hover:bg-blue-800 transition"
           >
             Announcements
           </Link>
@@ -147,7 +160,7 @@ export default function Dashboard() {
           <Link
             to="/admin/quotes"
             onClick={() => setOpen(false)}
-            className="p-3 rounded-lg hover:bg-blue-100 text-gray-700 font-medium transition"
+            className="p-3 rounded-lg hover:bg-blue-800 transition"
           >
             Quote Requests
           </Link>
@@ -155,34 +168,32 @@ export default function Dashboard() {
           <Link
             to="/admin/gallery"
             onClick={() => setOpen(false)}
-            className="p-3 rounded-lg hover:bg-blue-100 text-gray-700 font-medium transition"
+            className="p-3 rounded-lg hover:bg-blue-800 transition"
           >
             Gallery Uploads
           </Link>
 
+          {/* LOGOUT */}
+          <button
+            onClick={handleLogout}
+            className="mt-4 flex items-center gap-2 bg-red-500 hover:bg-red-600 px-4 py-3 rounded-lg transition"
+          >
+            <LogOut size={18} />
+            Logout
+          </button>
         </nav>
       </aside>
 
       {/* MAIN CONTENT */}
-      <div className="flex-1 w-full md:pl-72">
+      <div className="w-full md:pl-72">
 
-        {/* HEADER */}
-        <header className="sticky top-0 z-30 bg-white shadow-sm px-4 md:px-8 py-4 flex items-center justify-between">
+        {/* DESKTOP HEADER */}
+        <header className="hidden md:flex sticky top-0 z-30 bg-white shadow-sm px-8 py-4 justify-between items-center">
 
-          {/* MOBILE MENU */}
-          <button
-            className="md:hidden text-gray-700"
-            onClick={() => setOpen(true)}
-          >
-            <Menu size={26} />
-          </button>
-
-          {/* TITLE */}
-          <h1 className="text-xl md:text-2xl font-bold text-blue-700">
+          <h1 className="text-2xl font-bold text-blue-700">
             PlumbTech Admin
           </h1>
 
-          {/* LOGOUT */}
           <button
             onClick={handleLogout}
             className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
@@ -201,12 +212,12 @@ export default function Dashboard() {
               Dashboard Overview
             </h2>
 
-            <p className="text-gray-500 mt-2 text-sm md:text-base">
+            <p className="text-gray-500 mt-2">
               Welcome back to your admin dashboard
             </p>
           </div>
 
-          {/* STATS GRID */}
+          {/* STATS */}
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
 
             <Card
@@ -241,7 +252,7 @@ export default function Dashboard() {
   );
 }
 
-/* REUSABLE CARD */
+/* CARD */
 function Card({ title, value, icon }) {
   return (
     <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-5 md:p-6">
