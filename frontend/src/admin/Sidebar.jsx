@@ -16,7 +16,7 @@ export default function Sidebar({
 }) {
   return (
     <>
-      {/* BACKDROP */}
+      {/* BACKDROP (mobile only) */}
       {open && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
@@ -42,6 +42,7 @@ export default function Sidebar({
             PlumbTech
           </h1>
 
+          {/* CLOSE BUTTON (mobile only) */}
           <button
             className="md:hidden"
             onClick={() => setOpen(false)}
@@ -100,7 +101,10 @@ export default function Sidebar({
 
           {/* LOGOUT */}
           <button
-            onClick={handleLogout}
+            onClick={() => {
+              setOpen(false);
+              handleLogout?.();
+            }}
             className="mt-4 flex items-center gap-3 bg-red-500 hover:bg-red-600 px-4 py-3 rounded-lg transition"
           >
             <LogOut size={18} />
