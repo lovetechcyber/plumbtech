@@ -10,6 +10,7 @@ import mediaRoutes from "./routes/mediaRoutes.js";
 import announcementRoutes from "./routes/announcementRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import cookieParser from "cookie-parser";
+import { fileURLToPath } from "url";
 
 
 dotenv.config();
