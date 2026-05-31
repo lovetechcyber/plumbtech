@@ -127,6 +127,7 @@ export default function Dashboard() {
             <p className="text-gray-500 mt-2">
               Welcome back to your admin dashboard
             </p>
+     <Sidebar />
           </div>
 
           {/* CARDS */}
