@@ -72,7 +72,7 @@ app.use("/api/contact", contactRoutes);
 app.use(express.static(frontendPath));
 
 /* REACT ROUTER FIX */
-app.get("*", (req, res) => {
+app.use((req, res) => {
   res.sendFile(
     path.join(frontendPath, "index.html")
   );
