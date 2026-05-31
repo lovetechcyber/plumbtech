@@ -7,68 +7,66 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* MOBILE TOP BAR */}
-      <div className="md:hidden flex items-center justify-between bg-blue-900 text-white p-4 fixed top-0 left-0 right-0 z-50">
+      {/* MOBILE / TABLET TOP BAR */}
+      <div className="md:hidden flex items-center justify-between bg-blue-900 text-white p-4 fixed top-0 left-0 right-0 z-40 shadow-md">
         <h1 className="text-xl font-bold">PlumbTech</h1>
 
         <button onClick={() => setOpen(true)}>
-          <Menu />
+          <Menu size={26} />
         </button>
       </div>
 
       {/* OVERLAY */}
       {open && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
           onClick={() => setOpen(false)}
         />
       )}
 
       {/* SIDEBAR */}
-      <div
+      <aside
         className={`
-          fixed top-0 left-0 h-full bg-blue-900 text-white z-50
-          w-64 p-6 transform transition-transform duration-300
+          fixed top-0 left-0 h-full w-64 bg-blue-900 text-white z-50
+          shadow-2xl
+          transform transition-transform duration-300 ease-in-out
           ${open ? "translate-x-0" : "-translate-x-full"}
-          md:translate-x-0 md:block
+          md:translate-x-0 md:static md:block
         `}
       >
-        {/* CLOSE BUTTON (mobile only) */}
-        <div className="flex justify-between items-center mb-6 md:hidden">
+        {/* HEADER */}
+        <div className="flex items-center justify-between p-5 border-b border-blue-800">
           <h1 className="text-2xl font-bold">PlumbTech</h1>
-          <button onClick={() => setOpen(false)}>
+
+          {/* close button only mobile */}
+          <button className="md:hidden" onClick={() => setOpen(false)}>
             <X />
           </button>
         </div>
 
-        {/* LOGO (desktop) */}
-        <div className="hidden md:block p-4 border-b border-blue-800 mb-6">
-          <h1 className="text-2xl font-bold">PlumbTech</h1>
-        </div>
-
         {/* NAV */}
-        <nav className="flex flex-col gap-4">
-          <Link onClick={() => setOpen(false)} to="/admin/dashboard" className="hover:text-blue-300">
+        <nav className="flex flex-col gap-2 p-5">
+          <Link onClick={() => setOpen(false)} to="/admin/dashboard" className="hover:bg-blue-800 p-2 rounded">
             Dashboard
           </Link>
 
-          <Link onClick={() => setOpen(false)} to="/admin/message" className="hover:text-blue-300">
+          <Link onClick={() => setOpen(false)} to="/admin/message" className="hover:bg-blue-800 p-2 rounded">
             Message
           </Link>
 
-          <Link onClick={() => setOpen(false)} to="/admin/announcement" className="hover:text-blue-300">
+          <Link onClick={() => setOpen(false)} to="/admin/announcement" className="hover:bg-blue-800 p-2 rounded">
             Announcement
           </Link>
 
-          <Link onClick={() => setOpen(false)} to="/admin/quotes" className="hover:text-blue-300">
+          <Link onClick={() => setOpen(false)} to="/admin/quotes" className="hover:bg-blue-800 p-2 rounded">
             Quote Requests
           </Link>
 
-          <Link onClick={() => setOpen(false)} to="/admin/gallery" className="hover:text-blue-300">
+          <Link onClick={() => setOpen(false)} to="/admin/gallery" className="hover:bg-blue-800 p-2 rounded">
             Gallery Uploads
           </Link>
         </nav>
-      </div>
+      </aside>
     </>
   );
 }
