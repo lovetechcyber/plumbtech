@@ -32,7 +32,7 @@ export default function Login() {
       localStorage.setItem("token", res.data.accessToken);
 
       // REDIRECT TO DASHBOARD
-      window.location.href = "/admin/dashboard";
+      navigate("/admin/dashboard");
 
     } catch (err) {
       setError(
