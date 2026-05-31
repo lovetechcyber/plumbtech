@@ -50,13 +50,26 @@ app.use(
 app.use("/api/contact", contactRoutes);
 app.use("/api/admin", adminAuthRoutes);
 
-// serve frontend build
-app.use(express.static(path.join(__dirname, "dist")));
+/* FIX __dirname */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// IMPORTANT: catch-all route (fixes refresh issue)
+/* FRONTEND PATH */
+const frontendPath = path.join(
+  __dirname,
+  "../frontend/dist"
+);
+
+/* STATIC FILES */
+app.use(express.static(frontendPath));
+
+/* REACT ROUTER FIX */
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "dist", "index.html"));
+  res.sendFile(
+    path.join(frontendPath, "index.html")
+  );
 });
+
 
 // DATABASE
 mongoose
