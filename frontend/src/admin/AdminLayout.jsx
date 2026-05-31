@@ -6,12 +6,12 @@ export default function AdminLayout({ children }) {
   const [open, setOpen] = useState(false);  
   
   return (  
-    <div className="min-h-screen md:mt-20 bg-gray-100 flex">  
+    <div className="min-h-screen md:pt-20 bg-gray-100 flex">  
   
       {/* SIDEBAR - Floating on mobile//tablet */}  
       <aside  
         className={`  
-          fixed top-0 left-0 h-full w-64 bg-white shadow-xl z-50  
+           top-0 left-0 h-full w-64 bg-white shadow-xl z-50  
           transform transition-transform duration-300 ease-in-out  
           ${open ? "translate-x-0" : "-translate-x-full"}  
           md:translate-x-0 md:static md:block  
