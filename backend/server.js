@@ -49,6 +49,14 @@ app.use(
 app.use("/api/contact", contactRoutes);
 app.use("/api/admin", adminAuthRoutes);
 
+// serve frontend build
+app.use(express.static(path.join(__dirname, "dist")));
+
+// IMPORTANT: catch-all route (fixes refresh issue)
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "dist", "index.html"));
+});
+
 // DATABASE
 mongoose
   .connect(process.env.MONGO_URI)
