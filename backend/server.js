@@ -33,7 +33,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://plumbtech.onrender.com",
+      "plumbtech.netlify.app",
     ],
     credentials: true,
   })
