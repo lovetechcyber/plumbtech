@@ -4,40 +4,59 @@ import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
 import path from "path";
+import cookieParser from "cookie-parser";
+import { fileURLToPath } from "url";
+
+// ROUTES
 import adminAuthRoutes from "./routes/adminAuth.js";
 import quoteRoutes from "./routes/quoteRoutes.js";
 import mediaRoutes from "./routes/mediaRoutes.js";
 import announcementRoutes from "./routes/announcementRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
-import cookieParser from "cookie-parser";
-import { fileURLToPath } from "url";
-
 
 dotenv.config();
 
 const app = express();
 
-// MIDDLEWARE
+/* FIX __dirname */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+/* FRONTEND BUILD PATH */
+const frontendPath = path.join(
+  __dirname,
+  "../frontend/dist"
+);
+
+/* MIDDLEWARE */
 app.use(
   cors({
-    origin: "https://plumbtech.onrender.com",
+    origin: [
+      "http://localhost:5173",
+      "https://plumbtech.onrender.com",
+    ],
     credentials: true,
   })
 );
 
 app.use(express.json());
-app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
+/* LOGGING */
 app.use(morgan("dev"));
 
-// STATIC FILES
+/* STATIC UPLOADS */
 app.use(
   "/uploads",
-  express.static("uploads")
+  express.static(
+    path.join(__dirname, "uploads")
+  )
 );
 
-// ROUTES
+/* API ROUTES */
+app.use("/api/admin", adminAuthRoutes);
+
 app.use("/api/quotes", quoteRoutes);
 
 app.use("/api/media", mediaRoutes);
@@ -48,19 +67,8 @@ app.use(
 );
 
 app.use("/api/contact", contactRoutes);
-app.use("/api/admin", adminAuthRoutes);
 
-/* FIX __dirname */
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-/* FRONTEND PATH */
-const frontendPath = path.join(
-  __dirname,
-  "../frontend/dist"
-);
-
-/* STATIC FILES */
+/* FRONTEND STATIC FILES */
 app.use(express.static(frontendPath));
 
 /* REACT ROUTER FIX */
@@ -70,20 +78,20 @@ app.get("*", (req, res) => {
   );
 });
 
-
-// DATABASE
+/* DATABASE */
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("MongoDB Connected");
 
-    app.listen(
-      process.env.PORT || 5000,
-      () => {
-        console.log("Server running");
-      }
-    );
+    const PORT = process.env.PORT || 5000;
+
+    app.listen(PORT, () => {
+      console.log(
+        `Server running on port ${PORT}`
+      );
+    });
   })
-  .catch((err) =>
-    console.log(err)
-  );
+  .catch((err) => {
+    console.log("MongoDB Error:", err);
+  });
