@@ -6,7 +6,7 @@ export default function AdminLayout({ children }) {
   const [open, setOpen] = useState(false);  
   
   return (  
-    <div className="min-h-screen bg-gray-100 flex">  
+    <div className="min-h-screen md:pt-20 bg-gray-100 flex">  
   
       {/* SIDEBAR - Floating on mobile//tablet */}  
       <aside  
