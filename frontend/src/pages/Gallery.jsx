@@ -21,7 +21,7 @@ export default function GalleryPage() {
     filter === "All" ? media : media.filter((item) => item.category === filter);
 
   return (
-    <div className="p-6">
+    <div className="p-6 pt-20">
       {/* HEADER */}
       <h1 className="text-3xl font-bold mb-4">Our Work Gallery</h1>
       <p className="text-gray-600 mb-6">

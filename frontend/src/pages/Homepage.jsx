@@ -19,7 +19,7 @@ export default function Home() {
   );
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/announcement")
+    fetch("api/announcement")
       .then((res) => res.json())
       .then((data) => {
         if (data?.message) setAnnouncement(data.message);

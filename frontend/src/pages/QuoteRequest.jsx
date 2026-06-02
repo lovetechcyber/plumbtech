@@ -36,7 +36,7 @@ export default function QuoteRequest() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center px-4 py-10">
+    <div className="min-h-screen pt-20 bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center px-4 py-10">
       
       <div className="w-full max-w-5xl grid md:grid-cols-2 bg-white rounded-3xl shadow-xl overflow-hidden">
 
