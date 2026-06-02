@@ -45,7 +45,7 @@ export default function AdminMessages() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 pt-20 p-6">
+    <div className="min-h-screen bg-gray-100 pt-20 p-10">
 
       {/* HEADER */}
       <div className="flex justify-between items-center mb-6">

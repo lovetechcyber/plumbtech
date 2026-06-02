@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
 import {
   X,
   LogOut,
@@ -14,9 +15,39 @@ export default function Sidebar({
   setOpen,
   handleLogout,
 }) {
+  const location = useLocation();
+
+  const links = [
+    {
+      name: "Dashboard",
+      path: "/admin/dashboard",
+      icon: <LayoutDashboard size={20} />,
+    },
+    {
+      name: "Messages",
+      path: "/admin/message",
+      icon: <MessageSquare size={20} />,
+    },
+    {
+      name: "Announcements",
+      path: "/admin/announcement",
+      icon: <Bell size={20} />,
+    },
+    {
+      name: "Quote Requests",
+      path: "/admin/quotes",
+      icon: <FileText size={20} />,
+    },
+    {
+      name: "Gallery Uploads",
+      path: "/admin/gallery",
+      icon: <Image size={20} />,
+    },
+  ];
+
   return (
     <>
-      {/* BACKDROP (mobile only) */}
+      {/* BACKDROP */}
       {open && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
@@ -27,77 +58,65 @@ export default function Sidebar({
       {/* SIDEBAR */}
       <aside
         className={`
-          fixed top-4 left-4 bottom-4 w-64
-          bg-blue-900 text-white z-50
-          rounded-2xl shadow-2xl
-          transform transition-transform duration-300 ease-in-out
-          ${open ? "translate-x-0" : "-translate-x-[120%]"}
+          fixed top-0 left-0 bottom-0
+          w-72 bg-blue-900 text-white
+          z-50 shadow-2xl
+          transition-transform duration-300 ease-in-out
+          overflow-y-auto
+
+          ${open
+            ? "translate-x-0"
+            : "-translate-x-full"}
+
           md:translate-x-0
         `}
       >
+
         {/* HEADER */}
-        <div className="flex items-center justify-between p-5 border-b border-blue-800">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-blue-800">
 
           <h1 className="text-2xl font-bold">
             PlumbTech
           </h1>
 
-          {/* CLOSE BUTTON (mobile only) */}
           <button
             className="md:hidden"
             onClick={() => setOpen(false)}
           >
-            <X />
+            <X size={28} />
           </button>
+
         </div>
 
         {/* NAVIGATION */}
-        <nav className="flex flex-col gap-2 p-4">
+        <nav className="flex flex-col p-4 gap-2">
 
-          <Link
-            to="/admin/dashboard"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-800 transition"
-          >
-            <LayoutDashboard size={20} />
-            Dashboard
-          </Link>
+          {links.map((link) => {
+            const active =
+              location.pathname === link.path;
 
-          <Link
-            to="/admin/message"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-800 transition"
-          >
-            <MessageSquare size={20} />
-            Messages
-          </Link>
+            return (
+              <Link
+                key={link.path}
+                to={link.path}
+                onClick={() => setOpen(false)}
+                className={`
+                  flex items-center gap-3
+                  px-4 py-3 rounded-xl
+                  transition-all duration-200
 
-          <Link
-            to="/admin/announcement"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-800 transition"
-          >
-            <Bell size={20} />
-            Announcements
-          </Link>
-
-          <Link
-            to="/admin/quotes"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-800 transition"
-          >
-            <FileText size={20} />
-            Quote Requests
-          </Link>
-
-          <Link
-            to="/admin/gallery"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-800 transition"
-          >
-            <Image size={20} />
-            Gallery Uploads
-          </Link>
+                  ${
+                    active
+                      ? "bg-blue-700"
+                      : "hover:bg-blue-800"
+                  }
+                `}
+              >
+                {link.icon}
+                {link.name}
+              </Link>
+            );
+          })}
 
           {/* LOGOUT */}
           <button
@@ -105,9 +124,14 @@ export default function Sidebar({
               setOpen(false);
               handleLogout?.();
             }}
-            className="mt-4 flex items-center gap-3 bg-red-500 hover:bg-red-600 px-4 py-3 rounded-lg transition"
+            className="
+              mt-6 flex items-center gap-3
+              bg-red-500 hover:bg-red-600
+              px-4 py-3 rounded-xl
+              transition
+            "
           >
-            <LogOut size={18} />
+            <LogOut size={20} />
             Logout
           </button>
 

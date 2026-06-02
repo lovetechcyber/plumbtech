@@ -14,7 +14,7 @@ export default function AdminGallery() {
   }, []);
 
   const fetchMedia = async () => {
-    const res = await axios.get("http://localhost:5000/api/media");
+    const res = await API.get("/api/media");
     setMedia(res.data);
   };
 
@@ -34,7 +34,7 @@ export default function AdminGallery() {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 pt-20">
       <h1 className="text-2xl font-bold mb-4">Admin Gallery Panel</h1>
 
       {/* UPLOAD */}

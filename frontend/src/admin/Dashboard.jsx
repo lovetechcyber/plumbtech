@@ -80,88 +80,89 @@ export default function Dashboard() {
     navigate("/admin/login");  
   };  
   
-  return (  
-    <div className="min-h-screen bg-gray-100">  
-  
-      {/* MOBILE TOPBAR */}  
-      <div className="fixed top-0 left-0 right-0 z-40 bg-blue-900 text-white flex justify-between items-center p-4 shadow md:hidden">  
-  
-        <h1 className="font-bold text-xl">  
-          PlumbTech  
-        </h1>  
-  
-        <button onClick={() => setOpen(true)}>  
-          <Menu size={26} />  
-        </button>  
-      </div>  
-  
-      {/* SIDEBAR */}  
-      <Sidebar  
-        open={open}  
-        setOpen={setOpen}  
-        handleLogout={handleLogout}  
-      />  
-  
-      {/* MAIN CONTENT */}  
-      <div className="w-full md:pl-72">  
-  
-        {/* DESKTOP HEADER */}  
-        <header className="hidden md:flex sticky top-0 z-30 bg-white shadow-sm px-8 py-4 justify-between items-center">  
-  
-          <h1 className="text-2xl font-bold text-blue-700">  
-            PlumbTech Admin  
-          </h1>  
-  
-        </header>  
-  
-        {/* PAGE CONTENT */}  
-        <main className="p-4 md:p-8 pt-24 md:pt-8">  
-  
-          {/* TITLE */}  
-          <div className="mb-8">  
-  
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800">  
-              Dashboard Overview  
-            </h2>  
-  
-            <p className="text-gray-500 mt-2">  
-              Welcome back to your admin dashboard  
-            </p>  
-          </div>  
-  
-          {/* CARDS */}  
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">  
-  
-            <Card  
-              title="Announcements"  
-              value={stats.announcements}  
-              icon={<Bell size={28} />}  
-            />  
-  
-            <Card  
-              title="Messages"  
-              value={stats.messages}  
-              icon={<MessageSquare size={28} />}  
-            />  
-  
-            <Card  
-              title="Quote Requests"  
-              value={stats.quotes}  
-              icon={<FileText size={28} />}  
-            />  
-  
-            <Card  
-              title="Gallery Uploads"  
-              value={stats.gallery}  
-              icon={<Image size={28} />}  
-            />  
-  
-          </div>  
-  
-        </main>  
-      </div>  
-    </div>  
-  );  
+return (
+  <div className="min-h-screen  bg-gray-100">
+
+    {/* MOBILE TOPBAR */}
+    <div className="fixed pt-20 top-0 left-0 right-0 z-40 bg-blue-900 text-white flex justify-between items-center p-4 shadow md:hidden">
+
+      <h1 className="font-bold text-xl">
+        PlumbTech
+      </h1>
+
+      <button onClick={() => setOpen(true)}>
+        <Menu size={26} />
+      </button>
+    </div>
+
+    {/* SIDEBAR */}
+    <Sidebar
+      open={open}
+      setOpen={setOpen}
+      handleLogout={handleLogout}
+    />
+
+    {/* MAIN CONTENT */}
+    <div className="md:ml-72 pt-20 min-h-screen">
+
+      {/* DESKTOP HEADER */}
+      <header className="hidden md:flex sticky top-0 z-30 bg-white shadow-sm px-8 py-4 justify-between items-center">
+
+        <h1 className="text-2xl font-bold text-blue-700">
+          PlumbTech Admin
+        </h1>
+
+      </header>
+
+      {/* PAGE CONTENT */}
+      <main className="p-4 md:p-8 pt-24 md:pt-8 pb-24">
+
+        {/* TITLE */}
+        <div className="mb-8">
+
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+            Dashboard Overview
+          </h2>
+
+          <p className="text-gray-500 mt-2">
+            Welcome back to your admin dashboard
+          </p>
+
+        </div>
+
+        {/* CARDS */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+
+          <Card
+            title="Announcements"
+            value={stats.announcements}
+            icon={<Bell size={28} />}
+          />
+
+          <Card
+            title="Messages"
+            value={stats.messages}
+            icon={<MessageSquare size={28} />}
+          />
+
+          <Card
+            title="Quote Requests"
+            value={stats.quotes}
+            icon={<FileText size={28} />}
+          />
+
+          <Card
+            title="Gallery Uploads"
+            value={stats.gallery}
+            icon={<Image size={28} />}
+          />
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+); 
 }  
   
 /* CARD COMPONENT */  
